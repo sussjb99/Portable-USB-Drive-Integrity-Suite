@@ -1,4 +1,4 @@
-***The applications folder structure is as follows***
+** The applications folder structure is as follows **
 \!VERIFY_INTEGRITY.BAT
 \Integrity_Check\
   Drive_status.xml
@@ -22,6 +22,6 @@
     pshell.bat
     quick_surface_scan.bat
 
-**File Descriptions**
+** File Descriptions **
     
   
