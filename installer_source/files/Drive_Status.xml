@@ -1,0 +1,46 @@
+<DriveBabySitter>
+  <Metadata>
+    <LastHardwareProbe>2026-04-05 09:12:48</LastHardwareProbe>
+  </Metadata>
+  <HardwareIdentity>
+    <Model>Kingston DataTraveler II USB Device</Model>
+    <Serial>5B511D01A39E</Serial>
+    <Interface>USB</Interface>
+    <Technology>Flash</Technology>
+    <FileSystem>FAT32</FileSystem>
+  </HardwareIdentity>
+  <StorageCapacity>
+    <TotalGB>0.96</TotalGB>
+    <UsedGB>0.48</UsedGB>
+    <FreeGB>0.47</FreeGB>
+  </StorageCapacity>
+  <HardwareVitals>
+    <PowerOnHours>N/A</PowerOnHours>
+    <Temperature>N/A</Temperature>
+    <ReallocatedSectors>N/A</ReallocatedSectors>
+    <HealthRating>N/A</HealthRating>
+  </HardwareVitals>
+  <Policy>
+    <StressTestAllowed>True</StressTestAllowed>
+    <Notes>Standard Drive</Notes>
+  </Policy>
+  <SmartHealthStatus>
+    <SmartStatus>N/A</SmartStatus>
+  </SmartHealthStatus>
+  <FileIntegrityScan>
+    <LastScanDate>2026-04-04 14:10:02</LastScanDate>
+    <FilesChecked>1332</FilesChecked>
+    <CorruptFiles>0</CorruptFiles>
+    <IntegrityGrade>High</IntegrityGrade>
+  </FileIntegrityScan>
+  <SurfaceScanInfo>
+    <SurfaceScanDate>2026-04-03 13:38:27</SurfaceScanDate>
+    <ActualTimeTaken>00:18:38</ActualTimeTaken>
+    <SurfaceGrade>Healthy</SurfaceGrade>
+    <StabilityScore>28.8</StabilityScore>
+    <AvgReadSpeed>6.54</AvgReadSpeed>
+    <ScanCoverage>99</ScanCoverage>
+    <ErrorsDetected>0</ErrorsDetected>
+    <LastScanDate>2026-04-04 14:10:02</LastScanDate>
+  </SurfaceScanInfo>
+</DriveBabySitter>
