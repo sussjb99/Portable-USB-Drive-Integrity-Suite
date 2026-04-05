@@ -1,0 +1,5 @@
+;!@Install@!UTF-8!
+Title="Portable Drive Baby Sitter - Setup"
+BeginPrompt="Install Portable Drive Baby Sitter?"
+RunProgram="install.bat"
+;!@InstallEnd@!

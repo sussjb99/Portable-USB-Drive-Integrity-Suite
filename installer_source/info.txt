@@ -1,0 +1,20 @@
+Procedure for making setup.exe
+*******************************
+1) Install 7-zip
+
+2) Install extra https://www.7-zip.org/a/7z920_extra.7z
+
+3) cd to Installation folder \PortableDriveBabySitter\installer_source
+
+4) "C:\Program Files\7-Zip\7z.exe" a -t7z installer.7z .\*
+
+5) create config.txt 
+	;!@Install@!UTF-8!
+	Title="Drive Baby Sitter - Setup"
+	BeginPrompt="Install Drive Baby Sitter?"
+	RunProgram="install.bat"
+	;!@InstallEnd@!
+	
+
+
+6) copy /b "C:\Program Files\7-Zip\7zSD.sfx" + config.txt + installer.7z setup.exe
