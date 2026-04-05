@@ -9,7 +9,7 @@ The suite works with USB flash drives, portable HDDs/SSDs, and other removable s
 
 This software is small and portable and is designed to be installed and run directly from your storage devices.
 
-This software is was written in C++, Powershell, and bat scripting languages.
+This software is was written in C++, Powershell, and bat scripting language.
 
 ---
 
