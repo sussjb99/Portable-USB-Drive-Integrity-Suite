@@ -1,4 +1,4 @@
-# Drive Baby Sitter – Integrity Suite
+# Portable Drive Baby Sitter – Integrity Suite
 
 Drive Baby Sitter is a maintenance and monitoring toolkit designed to keep external storage devices healthy over long periods of time. It performs two major categories of checks:
 
