@@ -7,6 +7,7 @@ Portable Drive Baby Sitter is a maintenance and monitoring toolkit designed to k
 
 The suite works with USB flash drives, portable HDDs/SSDs, and other removable storage devices. It never modifies files unless you explicitly choose to run a recovery procedure.
 
+This software is portable. It is currently designed to be installed and run directly on the storage device
 ---
 
 ## Features
