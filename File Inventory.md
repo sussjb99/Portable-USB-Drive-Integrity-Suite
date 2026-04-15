@@ -27,7 +27,7 @@
         ├── recovery_data_part1.vol000+01.par2    # Contains parity blocks for recovering corrupted files
     ├── reports\                                  # Location for generated scan reports
         ├── REPORT_20260415_111950.html           # HTML Reports Generated when Surface Scanned
-    └── scripts\                                  # Location for core logic execution scripts
+    ├── scripts\                                  # Location for core logic execution scripts
         ├── create_baseXML.ps1                    # Generates the initial basline state baseline.xml
         ├── create_recovery.ps1                   # Generates the par2 data recovery sets
         ├── full_surface_Scan.bat                 # Runs full surface scans
