@@ -1,0 +1,4 @@
+Modified version of par2cmdline-turbo.
+Added functionality to read list of files from the command line using @filelist.txt
+Author sussjb99
+2026-04-15
