@@ -95,7 +95,7 @@ Last Updated: 2026/04/12
 	software, you can make use of the program "corruptor.exe" which is located in
 	the bin directory. Using this program will allow you to test corrupting a
 	file's content without changing the modified date of the file. Then when you
-	run "Scan for Bit Rot"function, the program will offer to recover the file for
+	run "Scan for Bit Rot" function, the program will offer to recover the file for
 	you. The original file will be moved to a ".1" extention. Note, I would 
 	strongly advise not testing this recovery process with an important file.
 	
