@@ -13,6 +13,17 @@ This software is was written in C++, Powershell, and the bat scripting language.
 
 ---
 
+## Support the Project
+
+Portable Drive Baby Sitter is an independent, open‑source project built to help people keep their data safe.  
+If this tool has helped you detect issues, avoid data loss, or simply feel more confident about your drives, you can support ongoing development here:
+
+[☕ Support on Ko‑fi](https://ko-fi.com/sussjb99)
+
+Every contribution helps fund testing hardware, new features, and long‑term maintenance.
+
+---
+
 ## Features
 
 ### 🔍 Device Information
