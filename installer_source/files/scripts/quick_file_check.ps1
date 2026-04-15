@@ -1,3 +1,13 @@
+# ============================================================
+# Portable Drive Baby Sitter - Integrity Suite
+# File: quick_file_check.ps1
+# Author: sussjb99
+# Version: 1.0
+# Last Modified: <2026-04-12>
+# Copyright (c) 2026 sussjb99. All rights reserved.
+# Licensed under the MIT License. See LICENSE.txt for details.
+# ============================================================
+
 param ([string]$DriveLetter)
 $ErrorActionPreference = "Stop"
 
@@ -10,33 +20,40 @@ $ExcludeToken = "integrity_check"
 
 $Bin          = "$CleanDrive$ExcludeToken\bin"
 $Logs         = "$CleanDrive$ExcludeToken\logs"
+$FileGen      = "$Bin\FileListGen.exe"
 $HashDeep     = "$Bin\hashdeep64.exe"
 $Par2Exe      = "$Bin\par2.exe"
 $Baseline     = "$Logs\baseline.xml"
 $Current      = "$Logs\current_check.xml"
 $AuditList    = "$Logs\quick_check_files.txt"
 $RepairList   = "$Logs\repair_list.txt"
-$Par2Set      = "$Logs\recovery_data.par2"
+#$OutPath      = "$Logs\files.txt"
+$OutPath      = "$Logs\baseline_files.txt"
 $StatusFile   = "$CleanDrive$ExcludeToken\Drive_Status.xml"
+
+# Force encoding for tool communication
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # --- 2. Generate Current Scan ---
 Write-Host "Step 1: Inventorying Drive..." -ForegroundColor Cyan
-$Files = Get-ChildItem -Path $CleanDrive -Recurse -File -ErrorAction SilentlyContinue | Where-Object {
-    $_.FullName -notmatch "System Volume Information" -and 
-    $_.FullName -notmatch "\`$RECYCLE\.BIN" -and 
-    $_.FullName -notmatch [regex]::Escape($ExcludeToken)
-}
 
 if (-not (Test-Path $Logs)) { New-Item -Path $Logs -ItemType Directory -Force | Out-Null }
-$Files.FullName | Out-File -FilePath $AuditList -Encoding ascii
+
+# Use FileListGen with standard paths
+& $FileGen "$CleanDrive" "$AuditList"
+
+if (-not (Test-Path $AuditList)) { Write-Host "Error: FileListGen failed."; exit 4 }
+$FileCount = (Get-Content $AuditList).Count
 
 # Step 2 UI Update
-Write-Host "Step 2: Hashing $($Files.Count) files..." -ForegroundColor Yellow
+Write-Host "Step 2: Hashing $FileCount files..." -ForegroundColor Yellow
 Write-Host "      [Scanning hardware; please wait...]" -ForegroundColor Gray
 Push-Location $CleanDrive
-# & $HashDeep -c sha256 -l -d -f "$AuditList" > "$Current"
-# cmd /c "cd /d $CleanDrive && "$HashDeep" -c sha256 -l -d -f "$AuditList" > "$Current""
-cmd /c "cd /d $CleanDrive && ""$HashDeep"" -c sha256 -l -d -f ""$AuditList"" > ""$Current"""
+
+# Generate the current XML using standard paths (using md5 to match baseline)
+#6 threads  & $HashDeep -c md5 -l -d -f "$AuditList" | Out-File -FilePath "$Current" -Encoding utf8
+& $HashDeep -c md5 -l -d -f "$AuditList" | Set-Content -Path "$Current" -Encoding utf8
 
 Pop-Location
 
@@ -49,9 +66,10 @@ function Get-FileInventory($Path) {
     
     $FileName = Split-Path $Path -Leaf
     Write-Host "Parsing $FileName... " -NoNewline -ForegroundColor Gray
-    [xml]$xml = Get-Content $Path -Raw
+    [xml]$xml = Get-Content $Path -Raw -Encoding UTF8
     
     $nodes = $xml.dfxml.fileobject
+    if ($null -eq $nodes) { return $Inventory }
     $totalNodes = $nodes.Count
     $n = 0
 
@@ -62,10 +80,11 @@ function Get-FileInventory($Path) {
             Write-Host "`rParsing $FileName... $pct% " -NoNewline -ForegroundColor Gray
         }
         if ($null -eq $node.filename) { continue }
+        
         $p = ($node.filename -replace '^[a-zA-Z]:', '' -replace '^\.\\','').Replace('\','/').ToLower()
         $Inventory[$p] = $node
     }
-    Write-Host "" # Move to next line
+    Write-Host "" 
     return $Inventory
 }
 
@@ -92,8 +111,10 @@ foreach ($key in $cFiles.Keys) {
 
     $old = $bFiles[$key]
     $new = $cFiles[$key]
-    $oldHash = ($old.hashdigest | Where-Object { $_.type -eq 'SHA256' }).'#text'
-    $newHash = ($new.hashdigest | Where-Object { $_.type -eq 'SHA256' }).'#text'
+    
+    # Updated hash check to use MD5 to match your current baseline system
+    $oldHash = ($old.hashdigest | Where-Object { $_.type -eq 'md5' }).'#text'
+    $newHash = ($new.hashdigest | Where-Object { $_.type -eq 'md5' }).'#text'
 
     if ($oldHash -and $newHash -and ($oldHash.ToLower() -ne $newHash.ToLower())) {
         $oldTime = [DateTime]::Parse($old.mtime).ToUniversalTime()
@@ -106,7 +127,7 @@ foreach ($key in $cFiles.Keys) {
     }
     $bFiles.Remove($key)
 }
-Write-Host "" # Clear line
+Write-Host "" 
 
 foreach ($key in $bFiles.Keys) { $delList += $bFiles[$key].filename }
 
@@ -162,16 +183,48 @@ $surf = $root.SelectSingleNode("SurfaceScanInfo")
 Set-XmlValue $surf "LastScanDate" $timestamp
 Set-XmlValue $surf "SurfaceGrade" $(if ($corList.Count -gt 0) { "Caution" } else { "Healthy" })
 
-# Handle Repairs
+# --- 6. Intelligent Split-Parity Repair ---
 if ($corList.Count -gt 0) {
     $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
     [System.IO.File]::WriteAllLines($RepairList, $corList, $Utf8NoBom)
 
     Write-Host "`nWARNING: Silent corruption detected." -ForegroundColor Red
-    if ((Read-Host "Start repair using $Par2Set? (Y/N)") -ieq 'Y') {
+    if ((Read-Host "Start repair using multi-part parity sets? (Y/N)") -ieq 'Y') {
+        
+        if (-not (Test-Path $OutPath)) {
+            Write-Host "ERROR: $OutPath missing. Cannot calculate part numbers." -ForegroundColor Red
+            return
+        }
+
+        Write-Host "Loading master file index..." -ForegroundColor Gray
+        $masterList = Get-Content $OutPath
         $oldLoc = Get-Location
         Set-Location $CleanDrive
-        & $Par2Exe r -B . "$Par2Set" "@$RepairList"
+
+        foreach ($corruptFile in $corList) {
+            # Determine the part number mathematically (Chunk Size = 25000)
+            $index = [array]::IndexOf($masterList, $corruptFile)
+            
+            if ($index -ge 0) {
+                $partNum = [Math]::Floor($index / 25000) + 1
+                $currentParSet = Join-Path $Logs "recovery_data_part$($partNum).par2"
+
+                if (Test-Path $currentParSet) {
+                    Write-Host "Repairing $corruptFile using Part $partNum..." -ForegroundColor Green
+                    # We create a temporary single-line repair list for this specific file
+                    $tempList = Join-Path $Logs "temp_r.txt"
+                    [System.IO.File]::WriteAllLines($tempList, @($corruptFile), $Utf8NoBom)
+                    
+                    & $Par2Exe r -B . "$currentParSet" "@$tempList"
+                    
+                    if (Test-Path $tempList) { Remove-Item $tempList -Force }
+                } else {
+                    Write-Host "ERROR: Parity set $currentParSet not found." -ForegroundColor Red
+                }
+            } else {
+                Write-Host "ERROR: $corruptFile not found in master index." -ForegroundColor Red
+            }
+        }
         Set-Location $oldLoc
     }
 } else {

@@ -1,3 +1,14 @@
+:: ============================================================
+:: Portable Drive Baby Sitter - Integrity Suite
+:: File: full_surface_scan.bat
+:: Author: sussjb99
+:: Version: 1.0
+:: Last Modified: 2026-04-12
+:: Copyright (c) 2026 sussjb99. All rights reserved.
+:: Licensed under the MIT License. See LICENSE.txt for details.
+:: ============================================================
+
+
 @echo off
 
 :: Drive of the running script (returns like C:)
@@ -29,6 +40,5 @@ SET "SURFACE_SCAN=%HME%\bin\surface_scan.exe"
 set "DRV_STATUSXML=%HME%\Drive_Status.xml"
 
 
-:: %SURFACE_SCAN% %DRV_LETTER% PERCENT TEMPPATH REPORTPATH
-rem %SURFACE_SCAN% %DRV_LETTER% %PERCENTAGE% %TEMPPATH% %REPORTPATH%
+:: %SURFACE_SCAN% %DRV_LETTER% PERCENT TEMPPATH REPORTPATH DRIVE_STATUSXML
 %SURFACE_SCAN% %DRV_LETTER% %PERCENTAGE% %TEMPPATH% %REPORTPATH% %DRV_STATUSXML%

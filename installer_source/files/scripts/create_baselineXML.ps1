@@ -1,43 +1,61 @@
+# ============================================================
+# Portable Drive Baby Sitter - Integrity Suite
+# File: create_baselineXML.ps1
+# Author: sussjb99
+# Version: 1.0
+# Last Modified: <2026-04-12>
+# Copyright (c) 2026 sussjb99. All rights reserved.
+# Licensed under the MIT License. See LICENSE.txt for details.
+# ============================================================
+
 param ([string]$DriveLetter)
 $ErrorActionPreference = "Stop"
 
-# --- 1. Validation ---
+# --- 1. Path Setup ---
 if ([string]::IsNullOrWhiteSpace($DriveLetter)) { exit 1 }
-if ($DriveLetter -notmatch ":$") { $DriveLetter += ":" }
-$CleanDrive = $DriveLetter.Substring(0,2) + "\"
 
+$JustDrive = $DriveLetter.Substring(0,1) + ":"
+$CleanDrive = $JustDrive + "\"
 $ExcludeToken = "integrity_check"
-$HashDeep     = "$($CleanDrive)$ExcludeToken\bin\hashdeep64.exe"
-$OutFile      = "$($CleanDrive)$ExcludeToken\logs\baseline.xml"
-$AuditList    = "$($CleanDrive)$ExcludeToken\logs\baseline_files.txt"
 
-# Clear existing baseline and file list to ensure no stale data remains
-if (Test-Path $OutFile) { Remove-Item $OutFile -Force }
-if (Test-Path $AuditList) { Remove-Item $AuditList -Force }
+$Bin          = "$CleanDrive$ExcludeToken\bin"
+$Logs         = "$CleanDrive$ExcludeToken\logs"
+$FileGen      = "$Bin\FileListGen.exe"
+$HashDeep     = "$Bin\hashdeep64.exe"
+$Baseline     = "$Logs\baseline.xml"
+$AuditList    = "$Logs\baseline_files.txt"
+
+# Force UTF-8 for tool communication
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Ensure Logs directory exists
+if (-not (Test-Path $Logs)) { New-Item -Path $Logs -ItemType Directory -Force | Out-Null }
+
+# --- 2. Inventory Drive (C++ Accelerated - Standard Paths) ---
+Write-Host "Step 1: Inventorying $CleanDrive (Standard Paths)..." -ForegroundColor Cyan
+
+& $FileGen "$CleanDrive" "$AuditList"
+
+# --- 2.5 Logic Check ---
+if (-not (Test-Path $AuditList)) { Write-Host "Error: FileListGen failed."; exit 4 }
+$FileCount = (Get-Content $AuditList).Count
+
+# --- 3. Generate Master Baseline XML ---
+# Since the .bat file handled the estimate and confirmation, we start immediately.
+Write-Host "Step 2: Hashing $FileCount files..." -ForegroundColor Yellow
+
+# Use the list to generate the XML
+# TRYING ANOTHER OUTPUT FORMAT METHOD & $HashDeep -c md5 -l -d -f "$AuditList" | Out-File -FilePath "$Baseline" -Encoding utf8
+# & $HashDeep -c md5 -l -d -f "$AuditList" | Set-Content -Path "$Baseline" -Encoding utf8
+# & $HashDeep -c md5 -l -d -j 1 -f "$AuditList" | Set-Content "$Baseline" -Encoding utf8
+& $HashDeep -c md5 -l -d -f "$AuditList" | Set-Content -Path "$Baseline" -Encoding utf8
 
 
-Write-Host "Generating fresh baseline for $CleanDrive..." -ForegroundColor Cyan
 
-# --- 2. Gather Files (Excluding System Junk) ---
-# This ensures test5.txt (and others) are included, but System Volume is NOT.
-$Files = Get-ChildItem -Path $CleanDrive -Recurse -File -ErrorAction SilentlyContinue | Where-Object {
-    $_.FullName -notmatch "System Volume Information" -and 
-    $_.FullName -notmatch "\`$RECYCLE\.BIN" -and 
-    $_.FullName -notmatch $ExcludeToken
-}
+# --- 4. Cleanup ---
+# if (Test-Path $AuditList) { Remove-Item $AuditList -Force }
 
-if ($Files.Count -eq 0) { Write-Host "No files found."; exit 4 }
-
-# --- 3. Save List as ASCII (Crucial for HashDeep) ---
-$Files.FullName | Out-File -FilePath $AuditList -Encoding ascii
-
-# --- 4. Run HashDeep (Single Pass, No Fragments) ---
-Write-Host "Hashing $($Files.Count) files..." -ForegroundColor Yellow
-cmd /c "cd /d $CleanDrive && `"$HashDeep`" -c sha256 -l -d -f `"$AuditList`" > `"$OutFile`""
-
-# --- 5. Cleanup ---
-if (Test-Path $AuditList) { Remove-Item $AuditList -Force }
-
-if (Test-Path $OutFile) {
-    Write-Host "Success! Clean Baseline created at $OutFile" -ForegroundColor Green
+if (Test-Path $Baseline) {
+    Write-Host "`nSuccess! Master Baseline created at: $Baseline" -ForegroundColor Green
 }

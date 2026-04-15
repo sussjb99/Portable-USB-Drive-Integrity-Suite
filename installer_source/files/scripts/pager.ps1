@@ -1,3 +1,14 @@
+# ============================================================
+# Portable Drive Baby Sitter - Integrity Suite
+# File: pager.ps1
+# Author: sussjb99
+# Version: 1.0
+# Last Modified: <2026-04-12>
+# Copyright (c) 2026 sussjb99. All rights reserved.
+# Licensed under the MIT License. See LICENSE.txt for details.
+# ============================================================
+
+
 param(
     [Parameter(Mandatory=$true)]
     [string]$Path,
