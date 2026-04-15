@@ -1,0 +1,77 @@
+Comparing files commandline.cpp and COMMANDLINE - COPY.CPP
+***** commandline.cpp
+#include<algorithm>
+#include<fstream>  // Added for @filelist support
+#include "commandline.h"
+***** COMMANDLINE - COPY.CPP
+#include<algorithm>
+#include "commandline.h"
+*****
+
+***** commandline.cpp
+      {
+        // Added @filelist support here
+        if (argv[0][0] == '@')
+        {
+          std::string listfilename = &argv[0][1];
+          std::ifstream listfile(listfilename);
+          if (listfile.is_open())
+          {
+            std::string line;
+            while (std::getline(listfile, line))
+            {
+              // Basic cleanup for Windows carriage returns
+              if (!line.empty() && line[line.size() - 1] == '\r')
+                line.erase(line.size() - 1);
+              
+              if (!line.empty())
+              {
+                rawfilenames.push_back(line);
+              }
+            }
+            listfile.close();
+          }
+          else
+          {
+            std::cerr << "Could not open file list: " << listfilename << std::endl;
+            return false;
+          }
+        }
+        else
+        {
+          std::string path;
+          std::string name;
+          DiskFile::SplitFilename(argv[0], path, name);
+          std::unique_ptr< std::list<std::string> > filenames(
+                          DiskFile::FindFiles(path, name, recursive)
+                          );
+
+          std::list<std::string>::iterator fn = filenames->begin();
+          while (fn != filenames->end())
+          {
+            // Convert filename from command line into a full path + filename
+            std::string filename = DiskFile::GetCanonicalPathname(*fn);
+            rawfilenames.push_back(filename);
+            ++fn;
+          }
+        }
+***** COMMANDLINE - COPY.CPP
+      {
+
+        std::string path;
+        std::string name;
+        DiskFile::SplitFilename(argv[0], path, name);
+        std::unique_ptr< std::list<std::string> > filenames(
+                                                DiskFile::FindFiles(path, name, recursive)
+                                                );
+
+        std::list<std::string>::iterator fn = filenames->begin();
+        while (fn != filenames->end())
+        {
+          // Convert filename from command line into a full path + filename
+          std::string filename = DiskFile::GetCanonicalPathname(*fn);
+          rawfilenames.push_back(filename);
+          ++fn;
+        }
+*****
+
