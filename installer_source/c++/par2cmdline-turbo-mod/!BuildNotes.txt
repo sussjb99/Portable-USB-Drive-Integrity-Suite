@@ -1,0 +1,5 @@
+E:\C+\par2cmdline-turbo>powershell -Command "Get-ChildItem -Filter *.vcxproj -Recurse | ForEach-Object { (Get-Content $_.FullName) -replace '<PlatformToolset>v143</PlatformToolset>', '<PlatformToolset>v145</PlatformToolset>' | Set-Content $_.FullName }"
+
+E:\C+\par2cmdline-turbo>
+
+msbuild par2cmdline.vcxproj /p:Configuration=Release /p:Platform=x64
