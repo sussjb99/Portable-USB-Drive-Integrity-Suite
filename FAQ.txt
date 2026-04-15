@@ -123,7 +123,7 @@ Last Updated: 2026/04/12
 
     A	If I receive sufficient financial support, I will first utilize the funding
 	to procure a trusted certificate for signing my executables. This is so antivirus software
-	will not try and delete it or prevent them from running or being istalled. In 
+	will not try and delete it or prevent them from running or being installed. In 
 	addition, I will use the funding to procure web hosting services and procure a domain name. 
 	And then I will use the funding to support my future development and support of this
 	software.
