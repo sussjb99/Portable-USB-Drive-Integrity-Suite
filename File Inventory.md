@@ -17,7 +17,7 @@
     │   └── scantime_estimate.exe                 # Estimates time required to do a surface scan
     │   └── smartctl.exe                          # Reports SMART info from compatible storage devices
     │   └── surface_scan.exe                      # Performs Sufface Scan and analysis of deviced by writing and reading files.
-    ├── logs\                                     # Location for par2 and other system related files
+    └── logs\                                     # Location for par2 and other system related files
         ├── baseline.xml                          # Contains baseline XML listing file properties
         ├── baseline_files.txt                    # Contains baseline listing of files
         ├── current_check.xml                     # Contains current XML listing of file properties
@@ -25,9 +25,9 @@
         ├── files_part2.txt                       # Contains 2nd batch of files required for par2 processing
         ├── recovery_data_part1.par2              # Contains index, filelist and hash blocks for par2 data recovery
         ├── recovery_data_part1.vol000+01.par2    # Contains parity blocks for recovering corrupted files
-    ├── reports\                                  # Location for generated scan reports
+    └── reports\                                  # Location for generated scan reports
         ├── REPORT_20260415_111950.html           # HTML Reports Generated when Surface Scanned
-    ├── scripts\                                  # Location for core logic execution scripts
+    └── scripts\                                  # Location for core logic execution scripts
         ├── create_baseXML.ps1                    # Generates the initial basline state baseline.xml
         ├── create_recovery.ps1                   # Generates the par2 data recovery sets
         ├── full_surface_Scan.bat                 # Runs full surface scans
