@@ -36,3 +36,10 @@
         ├── pshell.bat                            # Wrapper for running PowerShell scripts
         └── quick_file_check.ps1                  # Checks for bit rot and other types of changes
         └── quick_surface_scan.bat                # Performs limited surface scan for quick validations
+
+**SPECIAL NOTES**
+---
+I am the author of all the exe, ps1, and bat programs exception of:
+- par2.exe                   # https://github.com/sussjb99/par2cmdline--filelist.txt
+- hashdeep64.exe             # https://github.com/jessek/hashdeep
+- smartctl.exe               # https://github.com/smartmontools/smartmontools
