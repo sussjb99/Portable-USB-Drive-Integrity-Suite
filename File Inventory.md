@@ -43,3 +43,6 @@ I am the author of all the exe, ps1, and bat programs except:
 - par2.exe                   # https://github.com/sussjb99/par2cmdline--filelist.txt
 - hashdeep64.exe             # https://github.com/jessek/hashdeep
 - smartctl.exe               # https://github.com/smartmontools/smartmontools
+
+* I have modified the code for par2.exe to facilitate the ability to utilize the @filelist.txt parameter.
+  The modifications have been provided to the original author.
