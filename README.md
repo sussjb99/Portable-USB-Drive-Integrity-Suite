@@ -141,7 +141,7 @@ To build from source:
 ## Contributing
 
 Contributions are welcome.  
-By submitting code, you agree that your contributions will be licensed under the GPLv3.
+By submitting code, you agree that your contributions will be licensed under the MIT License.
 
 See `CONTRIBUTING.md` for details.
 
