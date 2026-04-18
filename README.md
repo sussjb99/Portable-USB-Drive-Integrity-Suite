@@ -33,7 +33,7 @@ Displays detailed information about the currently mounted drive:
 - Hardware serial number  
 - Drive letter  
 - Filesystem type (FAT32, exFAT, NTFS, etc.)  
-- Storage technology (Flash, HDD, SSD, Unknown)  
+- Storage technology (Flash, HDD, SSD, SD)  
 - SMART health (if supported)
 
 ### 📦 Capacity Validation
