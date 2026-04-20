@@ -1,6 +1,6 @@
-# Portable-USB-Drive-Integrity-Suite
+# PUDIS (Portable-USB-Drive-Integrity-Suite)
 
-Portable Drive Baby Sitter is a maintenance and monitoring toolkit designed to keep external storage devices healthy over long periods of time. It performs two major categories of checks:
+PUDIS Portable-USB-Drive-Integrity-Suite) is a maintenance and monitoring toolkit designed to keep external storage devices healthy over long periods of time. It performs two major categories of checks:
 
 - **File Integrity (Bit‑Rot Detection)**
 - **Surface Analysis (Performance & Stability Scans)**
@@ -15,7 +15,7 @@ This software is was written in C++, Powershell, and the bat scripting language.
 
 ## Support the Project
 
-Portable Drive Baby Sitter is an independent, open‑source project built to help people keep their data safe.  
+PUDIS (Portable-USB-Drive-Integrity-Suite) is an independent, open‑source project built to help people keep their data safe.  
 If this tool has helped you detect issues, avoid data loss, or simply feel more confident about your drives, you can support ongoing development here:
 
 [☕ Support on Ko‑fi](https://ko-fi.com/sussjb99)
