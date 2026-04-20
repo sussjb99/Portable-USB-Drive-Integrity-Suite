@@ -1,5 +1,5 @@
 /* ============================================================
-   Portable Drive Baby Sitter - Integrity Suite
+   PUDIS (Portable‑USB‑Drive‑Integrity‑Suite)
    File: FileListGen.cpp
    Author: sussjb99
    Version: 1.0
