@@ -1,5 +1,5 @@
 /* ============================================================
-   Portable Drive Baby Sitter - Integrity Suite
+   PUDIS (Portable‑USB‑Drive‑Integrity‑Suite)
    File: surface_scan.cpp
    Author: sussjb99
    Version: 1.0
