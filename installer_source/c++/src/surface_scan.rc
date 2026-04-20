@@ -14,11 +14,11 @@ BEGIN
         BLOCK "040904b0"   // English (US), Unicode
         BEGIN
             VALUE "CompanyName", "sussjb99"
-            VALUE "FileDescription", "Drive Baby Sitter - Surface Scan Utility"
+            VALUE "FileDescription", "PUDIS - Surface Scan Utility"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "surface_scan.exe"
             VALUE "OriginalFilename", "surface_scan.exe"
-            VALUE "ProductName", "Portable Drive Baby Sitter - Integrity Suite"
+            VALUE "ProductName", "PUDIS (Portable‑USB‑Drive‑Integrity‑Suite)"
             VALUE "ProductVersion", "1.0.0.0"
             VALUE "LegalCopyright", "Copyright (c) 2026 sussjb99"
         END
