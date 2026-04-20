@@ -1,4 +1,4 @@
-# Contributing to Portable Drive Baby Sitter
+# Contributing to PUDIS (Portable-USB-Drive-Integrity-Suite)
 
 Thank you for your interest in contributing to Portable Drive Baby Sitter.  
 This project focuses on reliability, data integrity, and long‑term maintainability.  
