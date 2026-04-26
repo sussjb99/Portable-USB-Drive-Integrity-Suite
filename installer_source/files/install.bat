@@ -1,16 +1,20 @@
 @echo off
+
+mode con cols=65 lines=44
 setlocal DisableDelayedExpansion
 title Portable Drive Baby Sitter - Installer
 color 0F
 
-echo ============================================================
-echo            PORTABLE DRIVE BABY SITTER - INSTALLER
-echo ============================================================
+echo   ============================================================
+echo        PORTABLE USB DRIVE INTEGRITY SUITE - INSTALLER
+echo   ============================================================
 echo.
 
 :GET_DRIVE
 set "TARGET="
-set /p "TARGET=Enter the drive letter to install to (e.g., I): "
+echo(  Enter the drive letter to install to (e.g., I):
+set /p "TARGET=> "
+
 
 :: Normalize: Remove spaces, remove colons, take only the first character
 set "TARGET=%TARGET: =%"
@@ -22,20 +26,20 @@ if "%TARGET%"=="" goto GET_DRIVE
 
 :: Block C: drive
 if /I "%TARGET%"=="C" (
-    echo [ERROR] Installation to C: is restricted.
+    echo  [ERROR] Installation to C: is restricted.
     echo.
     goto GET_DRIVE
 )
 
 :: Validate drive exists
 if not exist "%TARGET%:\" (
-    echo [ERROR] Drive %TARGET%: was not found.
+    echo  [ERROR] Drive %TARGET%: was not found.
     echo.
     goto GET_DRIVE
 )
 
 echo.
-echo Installing to %TARGET%:\Integrity_Check...
+echo   Installing to %TARGET%:\Integrity_Check...
 
 :: 1. Create directory
 mkdir "%TARGET%:\Integrity_Check" >nul 2>&1
@@ -53,17 +57,17 @@ if exist "%TARGET%:\Integrity_Check\!VERIFY_INTEGRITY.BAT" (
 )
 
 echo.
-echo Installation complete!
-echo Files installed to: %TARGET%:\Integrity_Check
-echo Root tool installed to: %TARGET%:\
+echo   Installation complete!
+echo   Files installed to: %TARGET%:\Integrity_Check
+echo   Root tool installed to: %TARGET%:\
 echo.
-
-set /p "RUNNOW=Run Drive Baby Sitter now? (Y/N): "
+echo(  Run Portable USB Drive Integrity Suite? (Y/N):
+set /p "RUNNOW=> "
 if /I "%RUNNOW%"=="Y" (
-    echo Launching...
+    echo  Launching...
     call "%TARGET%:\!VERIFY_INTEGRITY.BAT"
 )
 
 echo.
-echo Closing installer...
+echo   Closing installer...
 pause
