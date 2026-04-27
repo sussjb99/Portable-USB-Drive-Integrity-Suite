@@ -28,7 +28,7 @@ The following map outlines the functional organization of the suite:
         ├── create_baseXML.ps1      # Generates initial integrity baseline
         ├── create_recovery.ps1     # Generates par2 data recovery sets
         ├── full_surface_scan.bat   # Controller for full surface validation
-        ├── quick_file_check.ps1    # Checks for bit-rot and changes (Protects C:)
+        ├── quick_file_check.ps1    # Checks for bit-rot and changes 
         ├── generate_report.ps1     # Generates HTML scan results
         ├── pager.ps1               # Documentation navigation helper
         └── pshell.bat              # Wrapper for PowerShell execution
