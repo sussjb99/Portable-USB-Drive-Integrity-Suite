@@ -9,18 +9,29 @@ The suite works with USB flash drives, portable HDDs/SSDs, and other removable s
 
 This software is designed to be small in size and should be installed and run directly from external storage devices.
 
-This software is was written in C++, Powershell, and the bat scripting language.
+This software was written in C++, PowerShell, and the Batch scripting language.
+
+---
+
+## 🛡️ Security & Integrity
+
+Because PUDIS performs low-level hardware analysis and direct volume access to verify USB integrity, some antivirus scanners may flag the executable as suspicious. 
+
+To ensure your safety and maintain full transparency:
+- **Verified Hashes:** Every binary and script in this suite is documented in the [manifest.md](./manifest.md) file with its corresponding **SHA-256 hash**.
+- **Self-Signed:** As this is an independent project currently in the funding phase, files are self-signed. You can manually verify the integrity of any file using the hashes provided in the manifest.
+- **Safety First:** The software is hard-coded to identify and target only removable drives. It will **never** perform a stress test on your system drive (C:).
 
 ---
 
 ## Support the Project
 
-PUDIS (Portable-USB-Drive-Integrity-Suite) is an independent, open‑source project built to help people keep their data safe.  
+PUDIS is an independent, open‑source project built to help people keep their data safe.  
 If this tool has helped you detect issues, avoid data loss, or simply feel more confident about your drives, you can support ongoing development here:
 
 [☕ Support on Ko‑fi](https://ko-fi.com/sussjb99)
 
-Every contribution helps fund testing hardware, new features, and long‑term maintenance.
+Every contribution helps fund testing hardware, new features, and the procurement of a professional code-signing certificate to reduce antivirus false positives.
 
 ---
 
@@ -28,135 +39,78 @@ Every contribution helps fund testing hardware, new features, and long‑term ma
 
 ### 🔍 Device Information
 Displays detailed information about the currently mounted drive:
-
-- Device model  
-- Hardware serial number  
-- Drive letter  
-- Filesystem type (FAT32, exFAT, NTFS, etc.)  
-- Storage technology (Flash, HDD, SSD, SD)  
-- SMART health (if supported)
+- Device model
+- Hardware serial number[cite: 3]
+- Drive letter[cite: 3]
+- Filesystem type (FAT32, exFAT, NTFS, etc.)[cite: 3]
+- Storage technology (Flash, HDD, SSD, SD)[cite: 3]
+- SMART health (if supported)[cite: 3]
 
 ### 📦 Capacity Validation
-Validates whether the drive’s reported capacity matches its actual usable capacity.  
-This helps detect counterfeit or defective flash drives that silently discard data once their true limit is exceeded.
+Validates whether the drive’s reported capacity matches its actual usable capacity. This helps detect counterfeit or defective flash drives that silently discard data once their true limit is exceeded.
 
 During a **Full Surface Scan**, the suite writes controlled test files across free space and reads them back to verify:
-
-- All regions of the drive are real and readable  
-- No hidden capacity limits  
-- No controller failures  
-- No unstable regions under load
+- All regions of the drive are real and readable[cite: 3]
+- No hidden capacity limits[cite: 3]
+- No controller failures[cite: 3]
+- No unstable regions under load[cite: 3]
 
 ### 🧬 File Integrity (Bit‑Rot Detection)
 The suite maintains a cryptographic baseline of all files, including:
-
-- File paths  
-- File sizes  
-- Timestamps  
-- Hash values  
+- File paths
+- File sizes
+- Timestamps
+- Hash values
 
 **It detects:** 
-- New files  
-- Deleted files  
-- Modified files  
-- Corrupted files (bit rot) — files whose hash value has changed even though the timestamp is the same.
+- New, deleted, or modified files.
+- **Corrupted files (bit rot):** Files whose hash value has changed even though the timestamp remains identical.
 
-If PAR2 recovery data exists, the suite can automatically repair corrupted files.  
-Recovered files are written back safely, and corrupted originals are preserved with a `.1` suffix.
-
-### 📊 Surface Scans
-
-#### Quick Surface Scan
-Reads a small sample of the drive to estimate stability and performance.
-
-#### Full Surface Scan
-Performs a full read/write validation across the drive’s free space.  
-This is the most thorough test and is especially effective at detecting:
-
-- Fake‑capacity flash drives  
-- Failing flash cells  
-- Misreporting controllers  
-- Unstable regions under load
+If PAR2 recovery data exists, the suite can automatically repair corrupted files. Recovered files are written back safely, and corrupted originals are preserved with a `.1` suffix.
 
 ---
 
 ## Tasks Overview
 
-### 1. Scan for Bit Rot
-Compares all files against the stored baseline and detects new, deleted, modified, or corrupted files.
-
-### 2. Update File Baseline
-Creates or updates the integrity baseline.
-
-### 3. Re‑Generate Recovery Data
-Creates or updates PAR2 recovery files for future repair operations.
-
-### 4. Quick Surface Scan
-Fast stability and performance sampling.
-
-### 5. Full Surface Scan
-Sequential read/write validation across all free space.
+1. **Scan for Bit Rot:** Compares all files against the stored baseline.
+2. **Update File Baseline:** Creates or updates the integrity baseline.
+3. **Re‑Generate Recovery Data:** Creates or updates PAR2 recovery files.
+4. **Quick Surface Scan:** Fast stability and performance sampling.
+5. **Full Surface Scan:** Sequential read/write validation across all free space.
 
 ---
 
 ## Recommended Usage
 
-- **New installations:**  
-  Update File Baseline → Re‑Generate Recovery Data
-
-- **Before retrieving data:**  
-  Run Scan for Bit Rot
-
-- **Routine health checks:**  
-  - Quick Surface Scan monthly  
-  - Full Surface Scan every 6 months or after unexpected disconnects
-
-- **Whenever drive contents change:**  
-  Update File Baseline + Re‑Generate Recovery Data
+- **New installations:** Update File Baseline → Re‑Generate Recovery Data
+- **Before retrieving data:** Run Scan for Bit Rot
+- **Routine health checks:** Quick Surface Scan monthly; Full Surface Scan every 6 months.
+- **Whenever drive contents change:** Update File Baseline + Re‑Generate Recovery Data
 
 ---
 
-## Notes
-
-- Flash drives wear out over time — regular scans help detect early failure.  
-- Bit rot can affect any storage device; the integrity baseline allows detection of even single‑bit corruption.
-
-  
-- PAR2 recovery data is optional but strongly recommended for archival drives.  
-- Capacity validation protects against counterfeit or defective flash drives.
-
----
 ## Building From Source
 
 To build from source:
-
-1. Clone this repository  
-2. Open the project in your preferred development environment  
-3. Build using your standard toolchain  
-
-
+1. Clone this repository.
+2. Ensure you have a C++ compiler and the PowerShell Core environment set up.
+3. Review the scripts in `Integrity_Check/scripts/` to understand the execution flow.
+4. Review `manifest.md` to ensure your compiled binaries match the expected project structure.
 
 ---
 
 ## Contributing
 
-Contributions are welcome.  
-By submitting code, you agree that your contributions will be licensed under the MIT License.
-
-See `CONTRIBUTING.md` for details.
+Contributions are welcome. By submitting code, you agree that your contributions will be licensed under the MIT License. See `CONTRIBUTING.md` for details.
 
 ---
 
 ## Disclaimer
 
-The software is provided **“AS IS”**, without warranty of any kind.  
-You assume all risks associated with using the software.
-
-See the LICENSE and AUA for full details.
+The software is provided **“AS IS”**, without warranty of any kind. You assume all risks associated with using the software. See the `LICENSE` and `AUA` for full details.
 
 ---
 
 ## Contact
 
 For questions, suggestions, or feedback, please open an issue on GitHub.
-
