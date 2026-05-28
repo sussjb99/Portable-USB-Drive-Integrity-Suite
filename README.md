@@ -40,20 +40,20 @@ Every contribution helps fund testing hardware, new features, and the procuremen
 ### 🔍 Device Information
 Displays detailed information about the currently mounted drive:
 - Device model
-- Hardware serial number[cite: 3]
-- Drive letter[cite: 3]
-- Filesystem type (FAT32, exFAT, NTFS, etc.)[cite: 3]
-- Storage technology (Flash, HDD, SSD, SD)[cite: 3]
-- SMART health (if supported)[cite: 3]
+- Hardware serial number
+- Drive letter
+- Filesystem type (FAT32, exFAT, NTFS, etc.)
+- Storage technology (Flash, HDD, SSD, SD)
+- SMART health (if supported)
 
 ### 📦 Capacity Validation
 Validates whether the drive’s reported capacity matches its actual usable capacity. This helps detect counterfeit or defective flash drives that silently discard data once their true limit is exceeded.
 
 During a **Full Surface Scan**, the suite writes controlled test files across free space and reads them back to verify:
-- All regions of the drive are real and readable[cite: 3]
-- No hidden capacity limits[cite: 3]
-- No controller failures[cite: 3]
-- No unstable regions under load[cite: 3]
+- All regions of the drive are real and readable
+- No hidden capacity limits
+- No controller failures
+- No unstable regions under load
 
 ### 🧬 File Integrity (Bit‑Rot Detection)
 The suite maintains a cryptographic baseline of all files, including:
