@@ -1,6 +1,20 @@
-# PUDIS (Portable-USB-Drive-Integrity-Suite)
+# ⚠️ PUDIS‑Legacy (Deprecated Version)
 
-PUDIS (Portable-USB-Drive-Integrity-Suite) is a maintenance and monitoring toolkit designed to keep external storage devices healthy over long periods of time. It performs two major categories of checks:
+This repository contains the **legacy version** of PUDIS (Portable‑USB‑Drive‑Integrity‑Suite).  
+It is no longer under active development.
+
+A newer, faster, and significantly improved version of the software is now available here:
+
+👉 **PUDIS‑2.0 (Current Version):** https://github.com/sussjb99/PUDIS-2.0
+
+If you are a new user, or if you want the most stable and feature‑complete version of the toolkit,  
+**please use PUDIS‑2.0 instead of this legacy release.**
+
+---
+
+# PUDIS (Portable‑USB‑Drive‑Integrity‑Suite)
+
+PUDIS (Portable‑USB‑Drive‑Integrity‑Suite) is a maintenance and monitoring toolkit designed to keep external storage devices healthy over long periods of time. It performs two major categories of checks:
 
 - **File Integrity (Bit‑Rot Detection)**
 - **Surface Analysis (Performance & Stability Scans)**
@@ -18,9 +32,9 @@ This software was written in C++, PowerShell, and the Batch scripting language.
 Because PUDIS performs low-level hardware analysis and direct volume access to verify USB integrity, some antivirus scanners may flag the executable as suspicious. 
 
 To ensure your safety and maintain full transparency:
-- **Verified Hashes:** Every binary and script in this suite is documented in the [manifest.md](./manifest.md) file with its corresponding **SHA-256 hash**.
-- **Self-Signed:** As this is an independent project currently in the funding phase, files are self-signed. You can manually verify the integrity of any file using the hashes provided in the manifest.
-- **Safety First:** The software is hard-coded to identify and target only removable drives. It will **never** perform a stress test on your system drive (C:).
+- **Verified Hashes:** Every binary and script in this suite is documented in the [manifest.md](./manifest.md) file with its corresponding **SHA‑256 hash**.
+- **Self‑Signed:** As this is an independent project currently in the funding phase, files are self‑signed. You can manually verify the integrity of any file using the hashes provided in the manifest.
+- **Safety First:** The software is hard‑coded to identify and target only removable drives. It will **never** perform a stress test on your system drive (C:).
 
 ---
 
@@ -31,7 +45,7 @@ If this tool has helped you detect issues, avoid data loss, or simply feel more 
 
 [☕ Support on Ko‑fi](https://ko-fi.com/sussjb99)
 
-Every contribution helps fund testing hardware, new features, and the procurement of a professional code-signing certificate to reduce antivirus false positives.
+Every contribution helps fund testing hardware, new features, and the procurement of a professional code‑signing certificate to reduce antivirus false positives.
 
 ---
 
@@ -39,32 +53,32 @@ Every contribution helps fund testing hardware, new features, and the procuremen
 
 ### 🔍 Device Information
 Displays detailed information about the currently mounted drive:
-- Device model
-- Hardware serial number
-- Drive letter
-- Filesystem type (FAT32, exFAT, NTFS, etc.)
-- Storage technology (Flash, HDD, SSD, SD)
+- Device model  
+- Hardware serial number  
+- Drive letter  
+- Filesystem type (FAT32, exFAT, NTFS, etc.)  
+- Storage technology (Flash, HDD, SSD, SD)  
 - SMART health (if supported)
 
 ### 📦 Capacity Validation
 Validates whether the drive’s reported capacity matches its actual usable capacity. This helps detect counterfeit or defective flash drives that silently discard data once their true limit is exceeded.
 
 During a **Full Surface Scan**, the suite writes controlled test files across free space and reads them back to verify:
-- All regions of the drive are real and readable
-- No hidden capacity limits
-- No controller failures
-- No unstable regions under load
+- All regions of the drive are real and readable  
+- No hidden capacity limits  
+- No controller failures  
+- No unstable regions under load  
 
 ### 🧬 File Integrity (Bit‑Rot Detection)
 The suite maintains a cryptographic baseline of all files, including:
-- File paths
-- File sizes
-- Timestamps
-- Hash values
+- File paths  
+- File sizes  
+- Timestamps  
+- Hash values  
 
-**It detects:** 
-- New, deleted, or modified files.
-- **Corrupted files (bit rot):** Files whose hash value has changed even though the timestamp remains identical.
+**It detects:**  
+- New, deleted, or modified files  
+- **Corrupted files (bit rot):** Files whose hash value has changed even though the timestamp remains identical  
 
 If PAR2 recovery data exists, the suite can automatically repair corrupted files. Recovered files are written back safely, and corrupted originals are preserved with a `.1` suffix.
 
@@ -72,30 +86,30 @@ If PAR2 recovery data exists, the suite can automatically repair corrupted files
 
 ## Tasks Overview
 
-1. **Scan for Bit Rot:** Compares all files against the stored baseline.
-2. **Update File Baseline:** Creates or updates the integrity baseline.
-3. **Re‑Generate Recovery Data:** Creates or updates PAR2 recovery files.
-4. **Quick Surface Scan:** Fast stability and performance sampling.
-5. **Full Surface Scan:** Sequential read/write validation across all free space.
+1. **Scan for Bit Rot:** Compares all files against the stored baseline.  
+2. **Update File Baseline:** Creates or updates the integrity baseline.  
+3. **Re‑Generate Recovery Data:** Creates or updates PAR2 recovery files.  
+4. **Quick Surface Scan:** Fast stability and performance sampling.  
+5. **Full Surface Scan:** Sequential read/write validation across all free space.  
 
 ---
 
 ## Recommended Usage
 
-- **New installations:** Update File Baseline → Re‑Generate Recovery Data
-- **Before retrieving data:** Run Scan for Bit Rot
-- **Routine health checks:** Quick Surface Scan monthly; Full Surface Scan every 6 months.
-- **Whenever drive contents change:** Update File Baseline + Re‑Generate Recovery Data
+- **New installations:** Update File Baseline → Re‑Generate Recovery Data  
+- **Before retrieving data:** Run Scan for Bit Rot  
+- **Routine health checks:** Quick Surface Scan monthly; Full Surface Scan every 6 months  
+- **Whenever drive contents change:** Update File Baseline + Re‑Generate Recovery Data  
 
 ---
 
 ## Building From Source
 
 To build from source:
-1. Clone this repository.
-2. Ensure you have a C++ compiler and the PowerShell Core environment set up.
-3. Review the scripts in `Integrity_Check/scripts/` to understand the execution flow.
-4. Review `manifest.md` to ensure your compiled binaries match the expected project structure.
+1. Clone this repository.  
+2. Ensure you have a C++ compiler and the PowerShell Core environment set up.  
+3. Review the scripts in `Integrity_Check/scripts/` to understand the execution flow.  
+4. Review `manifest.md` to ensure your compiled binaries match the expected project structure.  
 
 ---
 
